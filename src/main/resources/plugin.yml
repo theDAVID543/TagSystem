@@ -1,0 +1,7 @@
+name: TagSystem
+version: '1.0-SNAPSHOT'
+main: the.david.tagSystem.Main
+api-version: '1.21'
+commands:
+  tagsystem:
+    aliases: ts
