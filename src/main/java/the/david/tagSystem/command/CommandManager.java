@@ -1,12 +1,13 @@
 package the.david.tagSystem.command;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import the.david.tagSystem.command.commands.AddTag;
+import the.david.tagSystem.command.commands.Reload;
+import the.david.tagSystem.command.commands.SetTag;
 import the.david.tagSystem.impl.Pair;
 
 import java.util.HashMap;
@@ -14,7 +15,9 @@ import java.util.Map;
 
 public class CommandManager implements CommandExecutor{
 	public CommandManager(){
-
+		subCommands.put("add {newid} {text} {description}", new AddTag());
+		subCommands.put("set {id}", new SetTag());
+		subCommands.put("reload", new Reload());
 	}
 
 	public static final Map<String, SubCommand> subCommands = new HashMap<>();

@@ -6,6 +6,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import the.david.tagSystem.impl.Tag;
+import the.david.tagSystem.manager.TagManager;
+import the.david.tagSystem.util.DebugOutputHandler;
 
 import java.util.*;
 
@@ -41,6 +44,11 @@ public class TabCompleteManager implements TabCompleter{
 			}
 
 			if(matches){
+				if(commandParts[args.length-1].equals("{id}")){
+					for(Tag tag : TagManager.getTagCollision()){
+						matchList.add(tag.getId().toLowerCase());
+					}
+				}
 				matchList.add(commandParts[args.length - 1]);
 			}
 		}
