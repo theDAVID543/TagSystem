@@ -18,6 +18,7 @@ public class SetTag implements SubCommand{
 	public Boolean opOnly(){
 		return false;
 	}
+
 	@Override
 	public void execute(Player player, Map<String, String> parsedArgs){
 		if(!player.hasPermission("tagsystem.tag." + parsedArgs.get("id"))){

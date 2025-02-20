@@ -8,9 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import the.david.tagSystem.impl.Tag;
 import the.david.tagSystem.manager.TagManager;
-import the.david.tagSystem.util.DebugOutputHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class TabCompleteManager implements TabCompleter{
 	@Override
@@ -44,7 +46,7 @@ public class TabCompleteManager implements TabCompleter{
 			}
 
 			if(matches){
-				if(commandParts[args.length-1].equals("{id}")){
+				if(commandParts[args.length - 1].equals("{id}")){
 					for(Tag tag : TagManager.getTagCollision()){
 						matchList.add(tag.getId().toLowerCase());
 					}

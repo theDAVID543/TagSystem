@@ -12,6 +12,7 @@ public class AddTag implements SubCommand{
 	public Boolean opOnly(){
 		return true;
 	}
+
 	@Override
 	public void execute(Player player, Map<String, String> parsedArgs){
 		String id = parsedArgs.get("newid");

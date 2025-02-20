@@ -16,12 +16,14 @@ public class Tag{
 	private String text;
 	private String description;
 	private ItemStack icon;
+
 	public Tag(String id, String text, String description){
 		this.id = id;
 		this.text = text;
 		this.description = description;
 		setIcon(new ItemStack(Material.NAME_TAG));
 	}
+
 	public void setIcon(@NotNull ItemStack icon){
 		icon.editMeta(itemMeta -> {
 			itemMeta.displayName(LegacyComponentSerializer.legacy('&').deserialize(getText()).decoration(TextDecoration.ITALIC, false));
@@ -34,24 +36,30 @@ public class Tag{
 		});
 		this.icon = icon;
 	}
+
 	public void setText(String text){
 		this.text = text;
 	}
+
 	public void setDescription(String description){
 		this.description = description;
 	}
+
 	@NotNull
 	public String getId(){
 		return id;
 	}
+
 	@NotNull
 	public String getText(){
 		return text;
 	}
+
 	@NotNull
 	public String getDescription(){
 		return description;
 	}
+
 	@NotNull
 	public ItemStack getIcon(){
 		return icon;

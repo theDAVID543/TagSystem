@@ -58,10 +58,12 @@ public class ConfigHandler{
 			throw new RuntimeException(e);
 		}
 	}
+
 	public void setComments(String key, List<String> comments){
 		dataConfig.setComments(key, comments);
 		saveFile();
 	}
+
 	public void setObject(String key, Object value){
 		dataConfig.set(key, value);
 		saveFile();
@@ -91,6 +93,7 @@ public class ConfigHandler{
 	public List<String> getStringList(String key){
 		return dataConfig.getStringList(key);
 	}
+
 	public ItemStack getItemStack(String key){
 		return dataConfig.getItemStack(key);
 	}
