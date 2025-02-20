@@ -7,12 +7,10 @@ public class ConfigManager{
 	public static void loadConfigs(){
 		tagConfig = new ConfigHandler("TagConfig.yml");
 	}
-	public static void reload(){
-		loadConfigs();
-	}
-	public static void addTagToConfig(Tag tag){
+	public static void setTagToConfig(Tag tag){
 		tagConfig.setObject("tags." + tag.getId() + ".text", tag.getText());
 		tagConfig.setObject("tags." + tag.getId() + ".description", tag.getDescription());
+		tagConfig.setObject("tags." + tag.getId() + ".icon", tag.getIcon());
 		tagConfig.saveFile();
 	}
 }

@@ -11,7 +11,6 @@ import the.david.tagSystem.manager.TagManager;
 public final class Main extends JavaPlugin{
 	public CommandManager commandManager;
 	public TabCompleteManager tabCompleteManager;
-	public ConfigManager configManager;
 	public TagManager tagManager;
 	public static JavaPlugin instance;
 	public static Main plugin;
@@ -27,10 +26,8 @@ public final class Main extends JavaPlugin{
 		Bukkit.getPluginCommand("tagsystem").setExecutor(commandManager);
 		tabCompleteManager = new TabCompleteManager();
 		Bukkit.getPluginCommand("tagsystem").setTabCompleter(tabCompleteManager);
-		configManager = new ConfigManager();
-		configManager.loadConfigs();
-		tagManager = new TagManager();
-		tagManager.loadTags();
+		ConfigManager.loadConfigs();
+		TagManager.loadTags();
 	}
 
 	@Override

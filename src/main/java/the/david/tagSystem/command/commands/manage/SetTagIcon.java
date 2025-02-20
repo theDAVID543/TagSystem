@@ -1,13 +1,13 @@
-package the.david.tagSystem.command.commands;
+package the.david.tagSystem.command.commands.manage;
 
 import org.bukkit.entity.Player;
 import the.david.tagSystem.command.SubCommand;
-import the.david.tagSystem.data.ConfigManager;
+import the.david.tagSystem.impl.Tag;
 import the.david.tagSystem.manager.TagManager;
 
 import java.util.Map;
 
-public class Reload implements SubCommand{
+public class SetTagIcon implements SubCommand{
 	@Override
 	public Boolean opOnly(){
 		return true;
@@ -15,7 +15,8 @@ public class Reload implements SubCommand{
 
 	@Override
 	public void execute(Player player, Map<String, String> parsedArgs){
-		ConfigManager.loadConfigs();
-		TagManager.loadTags();
+		String id = parsedArgs.get("id");
+		Tag tag = TagManager.getTag(id);
+		TagManager.setTagIcon(tag, player.getInventory().getItemInMainHand());
 	}
 }

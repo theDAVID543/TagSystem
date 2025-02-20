@@ -5,9 +5,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import the.david.tagSystem.command.commands.AddTag;
+import the.david.tagSystem.command.commands.manage.AddTag;
 import the.david.tagSystem.command.commands.Reload;
 import the.david.tagSystem.command.commands.SetTag;
+import the.david.tagSystem.command.commands.manage.SetTagDescription;
+import the.david.tagSystem.command.commands.manage.SetTagIcon;
+import the.david.tagSystem.command.commands.manage.SetTagText;
 import the.david.tagSystem.impl.Pair;
 
 import java.util.HashMap;
@@ -15,7 +18,10 @@ import java.util.Map;
 
 public class CommandManager implements CommandExecutor{
 	public CommandManager(){
-		subCommands.put("add {newid} {text} {description}", new AddTag());
+		subCommands.put("manage add {newid} {text} {description}", new AddTag());
+		subCommands.put("manage set icon {id}", new SetTagIcon());
+		subCommands.put("manage set text {id} {text}", new SetTagText());
+		subCommands.put("manage set description {id} {description}", new SetTagDescription());
 		subCommands.put("set {id}", new SetTag());
 		subCommands.put("reload", new Reload());
 	}
