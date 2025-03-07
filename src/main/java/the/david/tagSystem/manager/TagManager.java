@@ -1,5 +1,6 @@
 package the.david.tagSystem.manager;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import the.david.tagSystem.data.ConfigHandler;
 import the.david.tagSystem.data.ConfigManager;
@@ -46,8 +47,16 @@ public class TagManager{
 		return tags.get(tagId);
 	}
 
-	public static Collection<Tag> getTagCollision(){
+	public static Collection<Tag> getAllTags(){
 		return tags.values();
+	}
+
+	public static Collection<Tag> getTagCollection(){
+		return tags.values();
+	}
+
+	public static boolean hasTagPermission(Player player, Tag tag){
+		return player.hasPermission("tagsystem.tag." + tag.getId());
 	}
 
 	public static void setTagIcon(Tag tag, ItemStack icon){

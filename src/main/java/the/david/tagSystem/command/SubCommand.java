@@ -9,7 +9,5 @@ public interface SubCommand{
 		return true;
 	}
 
-	;
-
 	void execute(Player player, Map<String, String> parsedArgs);
 }

@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import the.david.tagSystem.command.commands.Menu;
 import the.david.tagSystem.command.commands.Reload;
 import the.david.tagSystem.command.commands.SetTag;
 import the.david.tagSystem.command.commands.manage.AddTag;
@@ -24,6 +25,7 @@ public class CommandManager implements CommandExecutor{
 		subCommands.put("manage set description {id} {description}", new SetTagDescription());
 		subCommands.put("set {id}", new SetTag());
 		subCommands.put("reload", new Reload());
+		subCommands.put("menu", new Menu());
 	}
 
 	public static final Map<String, SubCommand> subCommands = new HashMap<>();
