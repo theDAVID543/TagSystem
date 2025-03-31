@@ -21,10 +21,10 @@ public class Tag{
 		this.id = id;
 		this.text = text;
 		this.description = description;
-		setIcon(new ItemStack(Material.NAME_TAG));
+		initializeIcon(new ItemStack(Material.NAME_TAG));
 	}
 
-	public void setIcon(@NotNull ItemStack icon){
+	public void initializeIcon(@NotNull ItemStack icon){
 		icon.editMeta(itemMeta -> {
 			itemMeta.displayName(LegacyComponentSerializer.legacy('&').deserialize(getText()).decoration(TextDecoration.ITALIC, false));
 			List<Component> descriptionLineList = new ArrayList<>();
@@ -34,6 +34,9 @@ public class Tag{
 			}
 			itemMeta.lore(descriptionLineList);
 		});
+		setIcon(icon);
+	}
+	public void setIcon(@NotNull ItemStack icon){
 		this.icon = icon;
 	}
 

@@ -1,0 +1,60 @@
+package the.david.tagSystem.manager;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
+import net.luckperms.api.node.NodeType;
+import net.luckperms.api.node.types.PrefixNode;
+import org.bukkit.entity.Player;
+import the.david.tagSystem.impl.Tag;
+
+import java.util.Collection;
+
+import static the.david.tagSystem.Main.luckPerms;
+
+public class PlayerTagManager{
+	public PlayerTagManager(){
+
+	}
+	public static void setPlayerTag(Player player, Tag tag){
+		if(!TagManager.hasTagPermission(player, tag)){
+			player.sendMessage(Component.text("You don't have permission to use this command!", NamedTextColor.RED));
+			return;
+		}
+		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+		PrefixNode prefixNode = PrefixNode.builder(tag.getText(), 1).withContext("tagsystem", "true").build();
+		Node node = Node.builder("tagsystem.tagid." + tag.getId()).withContext("tagsystem", "true").build();
+		user.data().clear(e -> e.getContexts().containsKey("tagsystem"));
+		user.data().add(prefixNode);
+		user.data().add(node);
+		luckPerms.getUserManager().saveUser(user);
+		player.sendMessage(Component.text("成功設定稱號為 ", NamedTextColor.GREEN).append(LegacyComponentSerializer.legacy('&').deserialize(tag.getText())));
+	}
+
+	public static void clearPlayerTag(Player player){
+		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+		user.data().clear(e -> e.getContexts().containsKey("tagsystem"));
+		luckPerms.getUserManager().saveUser(user);
+	}
+
+	public static Tag getPlayerTag(Player player){
+		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+		Collection<Node> nodes = user.getNodes();
+		Node tagIdNode = null;
+		for(Node node : nodes){
+			if(!node.getContexts().containsKey("tagsystem")){
+				continue;
+			}
+			if(!node.getType().equals(NodeType.PREFIX)){
+				tagIdNode = node;
+			}
+		}
+		if(tagIdNode == null){
+			return null;
+		}
+		String tagId = tagIdNode.getKey().replaceFirst("tagsystem.tagid.", "");
+		return TagManager.getTag(tagId);
+	}
+}

@@ -60,7 +60,7 @@ public class TagManager{
 	}
 
 	public static void setTagIcon(Tag tag, ItemStack icon){
-		tag.setIcon(icon);
+		tag.initializeIcon(icon);
 		ConfigManager.setTagToConfig(tag);
 	}
 
