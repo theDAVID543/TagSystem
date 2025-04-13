@@ -38,7 +38,7 @@ public class PlayerTagManager{
 
 	public static void clearPlayerTag(Player player){
 		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-		user.data().clear(e -> e.getKey().startsWith("tagsystem"));
+		user.data().clear(e -> e.getKey().startsWith("tagsystem.tagid"));
 		user.data().clear(e -> e.getType() == NodeType.SUFFIX);
 		luckPerms.getUserManager().saveUser(user);
 	}
