@@ -27,9 +27,9 @@ public class PlayerTagManager{
 		if(user == null){
 			return;
 		}
+		clearPlayerTag(player);
 		SuffixNode suffixNode = SuffixNode.builder(tag.getText(), 1).build();
 		Node node = Node.builder("tagsystem.tagid." + tag.getId()).build();
-		user.data().clear(e -> e.getKey().startsWith("tagsystem"));
 		user.data().add(suffixNode);
 		user.data().add(node);
 		luckPerms.getUserManager().saveUser(user);
