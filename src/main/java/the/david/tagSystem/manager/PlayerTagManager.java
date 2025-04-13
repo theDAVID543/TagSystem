@@ -23,10 +23,13 @@ public class PlayerTagManager{
 			player.sendMessage(Component.text("You don't have permission to use this command!", NamedTextColor.RED));
 			return;
 		}
-		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-		SuffixNode suffixNode = SuffixNode.builder(tag.getText(), 1).withContext("tagsystem", "true").build();
-		Node node = Node.builder("tagsystem.tagid." + tag.getId()).withContext("tagsystem", "true").build();
-		user.data().clear(e -> e.getContexts().containsKey("tagsystem"));
+		User user = luckPerms.getUserManager().getUser(player.getUniqueId());
+		if(user == null){
+			return;
+		}
+		SuffixNode suffixNode = SuffixNode.builder(tag.getText(), 1).build();
+		Node node = Node.builder("tagsystem.tagid." + tag.getId()).build();
+		user.data().clear(e -> e.getKey().startsWith("tagsystem"));
 		user.data().add(suffixNode);
 		user.data().add(node);
 		luckPerms.getUserManager().saveUser(user);
@@ -35,7 +38,8 @@ public class PlayerTagManager{
 
 	public static void clearPlayerTag(Player player){
 		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-		user.data().clear(e -> e.getContexts().containsKey("tagsystem"));
+		user.data().clear(e -> e.getKey().startsWith("tagsystem"));
+		user.data().clear(e -> e.getType() == NodeType.SUFFIX);
 		luckPerms.getUserManager().saveUser(user);
 	}
 
@@ -44,7 +48,7 @@ public class PlayerTagManager{
 		Collection<Node> nodes = user.getNodes();
 		Node tagIdNode = null;
 		for(Node node : nodes){
-			if(!node.getContexts().containsKey("tagsystem")){
+			if(!node.getKey().startsWith("tagsystem")){
 				continue;
 			}
 			if(!node.getType().equals(NodeType.SUFFIX)){
