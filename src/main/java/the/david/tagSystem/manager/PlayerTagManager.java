@@ -6,7 +6,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import net.luckperms.api.node.NodeType;
-import net.luckperms.api.node.types.PrefixNode;
+import net.luckperms.api.node.types.SuffixNode;
 import org.bukkit.entity.Player;
 import the.david.tagSystem.impl.Tag;
 
@@ -24,10 +24,10 @@ public class PlayerTagManager{
 			return;
 		}
 		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-		PrefixNode prefixNode = PrefixNode.builder(tag.getText(), 1).withContext("tagsystem", "true").build();
+		SuffixNode suffixNode = SuffixNode.builder(tag.getText(), 1).withContext("tagsystem", "true").build();
 		Node node = Node.builder("tagsystem.tagid." + tag.getId()).withContext("tagsystem", "true").build();
 		user.data().clear(e -> e.getContexts().containsKey("tagsystem"));
-		user.data().add(prefixNode);
+		user.data().add(suffixNode);
 		user.data().add(node);
 		luckPerms.getUserManager().saveUser(user);
 		player.sendMessage(Component.text("成功設定稱號為 ", NamedTextColor.GREEN).append(LegacyComponentSerializer.legacy('&').deserialize(tag.getText())));
