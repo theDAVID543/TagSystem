@@ -47,7 +47,7 @@ public class PlayerTagManager{
 			if(!node.getContexts().containsKey("tagsystem")){
 				continue;
 			}
-			if(!node.getType().equals(NodeType.PREFIX)){
+			if(!node.getType().equals(NodeType.SUFFIX)){
 				tagIdNode = node;
 			}
 		}
