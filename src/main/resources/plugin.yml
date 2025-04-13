@@ -1,5 +1,5 @@
 name: TagSystem
-version: '1.0.3'
+version: '1.0.4'
 main: the.david.tagSystem.Main
 api-version: '1.21'
 commands:

@@ -58,7 +58,7 @@ public class MainGUI{
 			}
 	);
 	public static void showGUI(Player player){
-		ChestGui gui = new ChestGui(6, "TagSystem");
+		ChestGui gui = new ChestGui(6, "稱號系統");
 		StaticPane outlinePane = new StaticPane(0,0, 9, 6, Pane.Priority.LOWEST);
 		for(int i = 0; i < 9; i++){
 			outlinePane.addItem(outlineItem, i, 0);
