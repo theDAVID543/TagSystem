@@ -6,6 +6,7 @@ import the.david.tagSystem.data.ConfigHandler;
 import the.david.tagSystem.data.ConfigManager;
 import the.david.tagSystem.impl.Tag;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class TagManager{
 		ConfigManager.setTagToConfig(tag);
 	}
 
+	@Nullable
 	public static Tag getTag(String tagId){
 		return tags.get(tagId);
 	}
