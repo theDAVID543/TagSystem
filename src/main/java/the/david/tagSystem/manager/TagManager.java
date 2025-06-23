@@ -28,7 +28,9 @@ public class TagManager{
 			String id = key;
 			String text = config.getString("tags." + key + ".text");
 			String description = config.getString("tags." + key + ".description");
-			Tag tag = new Tag(id, text, description);
+			String type = config.getString("tags." + key + ".type");
+			Tag.TagType tagType = Tag.TagType.valueOf(type);
+			Tag tag = new Tag(id, text, description, tagType);
 			try{
 				ItemStack itemStack = config.getItemStack("tags." + key + ".icon");
 				tag.setIcon(itemStack);

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import net.luckperms.api.node.NodeType;
+import net.luckperms.api.node.types.PrefixNode;
 import net.luckperms.api.node.types.SuffixNode;
 import org.bukkit.entity.Player;
 import the.david.tagSystem.impl.Tag;
@@ -27,28 +28,42 @@ public class PlayerTagManager{
 		if(user == null){
 			return;
 		}
-		clearPlayerTag(player);
-		SuffixNode suffixNode = SuffixNode.builder(tag.getText(), 1).build();
-		Node node = Node.builder("tagsystem.tagid." + tag.getId()).build();
-		user.data().add(suffixNode);
-		user.data().add(node);
+		if(tag.getTagType().equals(Tag.TagType.SUFFIX)){
+			clearPlayerSuffixTag(player);
+			SuffixNode suffixNode = SuffixNode.builder(tag.getText(), 1).build();
+			Node node = Node.builder("tagsystem.suffix.tagid." + tag.getId()).build();
+			user.data().add(suffixNode);
+			user.data().add(node);
+		}else if(tag.getTagType().equals(Tag.TagType.PREFIX)){
+			clearPlayerPrefixTag(player);
+			PrefixNode prefixNode = PrefixNode.builder(tag.getText(), 1).build();
+			Node node = Node.builder("tagsystem.prefix.tagid." + tag.getId()).build();
+			user.data().add(prefixNode);
+			user.data().add(node);
+		}
 		luckPerms.getUserManager().saveUser(user);
 		player.sendMessage(Component.text("成功設定稱號為 ", NamedTextColor.GREEN).append(LegacyComponentSerializer.legacy('&').deserialize(tag.getText())));
 	}
 
-	public static void clearPlayerTag(Player player){
+	public static void clearPlayerSuffixTag(Player player){
 		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-		user.data().clear(e -> e.getKey().startsWith("tagsystem.tagid"));
+		user.data().clear(e -> e.getKey().startsWith("tagsystem.suffix.tagid"));
 		user.data().clear(e -> e.getType() == NodeType.SUFFIX);
 		luckPerms.getUserManager().saveUser(user);
 	}
+	public static void clearPlayerPrefixTag(Player player){
+		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+		user.data().clear(e -> e.getKey().startsWith("tagsystem.prefix.tagid"));
+		user.data().clear(e -> e.getType() == NodeType.PREFIX);
+		luckPerms.getUserManager().saveUser(user);
+	}
 
-	public static Tag getPlayerTag(Player player){
+	public static Tag getPlayerSuffixTag(Player player){
 		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
 		Collection<Node> nodes = user.getNodes();
 		Node tagIdNode = null;
 		for(Node node : nodes){
-			if(!node.getKey().startsWith("tagsystem")){
+			if(!node.getKey().startsWith("tagsystem.suffix.tagid")){
 				continue;
 			}
 			if(!node.getType().equals(NodeType.SUFFIX)){
@@ -58,7 +73,25 @@ public class PlayerTagManager{
 		if(tagIdNode == null){
 			return null;
 		}
-		String tagId = tagIdNode.getKey().replaceFirst("tagsystem.tagid.", "");
+		String tagId = tagIdNode.getKey().replaceFirst("tagsystem.suffix.tagid.", "");
+		return TagManager.getTag(tagId);
+	}
+	public static Tag getPlayerPrefixTag(Player player){
+		User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+		Collection<Node> nodes = user.getNodes();
+		Node tagIdNode = null;
+		for(Node node : nodes){
+			if(!node.getKey().startsWith("tagsystem.prefix.tagid")){
+				continue;
+			}
+			if(!node.getType().equals(NodeType.PREFIX)){
+				tagIdNode = node;
+			}
+		}
+		if(tagIdNode == null){
+			return null;
+		}
+		String tagId = tagIdNode.getKey().replaceFirst("tagsystem.prefix.tagid.", "");
 		return TagManager.getTag(tagId);
 	}
 }

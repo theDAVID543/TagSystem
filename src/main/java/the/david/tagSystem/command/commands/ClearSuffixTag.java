@@ -6,7 +6,7 @@ import the.david.tagSystem.manager.PlayerTagManager;
 
 import java.util.Map;
 
-public class ClearTag implements SubCommand{
+public class ClearSuffixTag implements SubCommand{
 	@Override
 	public Boolean opOnly(){
 		return false;
@@ -14,6 +14,6 @@ public class ClearTag implements SubCommand{
 
 	@Override
 	public void execute(Player player, Map<String, String> parsedArgs){
-		PlayerTagManager.clearPlayerTag(player);
+		PlayerTagManager.clearPlayerSuffixTag(player);
 	}
 }

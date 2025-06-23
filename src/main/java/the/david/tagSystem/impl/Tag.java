@@ -16,11 +16,13 @@ public class Tag{
 	private String text;
 	private String description;
 	private ItemStack icon;
+	private TagType tagType;
 
-	public Tag(String id, String text, String description){
+	public Tag(String id, String text, String description, TagType tagType){
 		this.id = id;
 		this.text = text;
 		this.description = description;
+		this.tagType = tagType;
 		initializeIcon(new ItemStack(Material.NAME_TAG));
 	}
 
@@ -35,6 +37,9 @@ public class Tag{
 			itemMeta.lore(descriptionLineList);
 		});
 		setIcon(icon);
+	}
+	public void setType(TagType tagType){
+		this.tagType = tagType;
 	}
 	public void setIcon(@NotNull ItemStack icon){
 		this.icon = icon;
@@ -66,5 +71,13 @@ public class Tag{
 	@NotNull
 	public ItemStack getIcon(){
 		return icon;
+	}
+	public TagType getTagType(){
+		return tagType;
+	}
+
+	public enum TagType{
+		SUFFIX,
+		PREFIX
 	}
 }

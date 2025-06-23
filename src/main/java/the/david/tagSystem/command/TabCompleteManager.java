@@ -51,6 +51,10 @@ public class TabCompleteManager implements TabCompleter{
 						matchList.add(tag.getId().toLowerCase());
 					}
 				}
+				if(commandParts[args.length - 1].equals("{type}")){
+					matchList.add("prefix");
+					matchList.add("suffix");
+				}
 				matchList.add(commandParts[args.length - 1]);
 			}
 		}

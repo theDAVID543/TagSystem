@@ -15,10 +15,18 @@ public class AddTag implements SubCommand{
 
 	@Override
 	public void execute(Player player, Map<String, String> parsedArgs){
-		String id = parsedArgs.get("newid");
+		String type = parsedArgs.get("type");
+		Tag.TagType tagType;
+		try{
+			tagType = Tag.TagType.valueOf(type.toUpperCase());
+		}catch(IllegalArgumentException e){
+			player.sendMessage("type not found");
+			return;
+		}
+		String id = parsedArgs.get("id");
 		String text = parsedArgs.get("text");
 		String description = parsedArgs.get("description");
-		Tag tag = new Tag(id, text, description);
+		Tag tag = new Tag(id, text, description, tagType);
 		TagManager.addTag(tag);
 	}
 }

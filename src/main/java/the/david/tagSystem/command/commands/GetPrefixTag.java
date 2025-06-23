@@ -9,7 +9,7 @@ import the.david.tagSystem.manager.PlayerTagManager;
 
 import java.util.Map;
 
-public class GetTag implements SubCommand{
+public class GetPrefixTag implements SubCommand{
 	@Override
 	public Boolean opOnly(){
 		return false;
@@ -17,9 +17,9 @@ public class GetTag implements SubCommand{
 
 	@Override
 	public void execute(Player player, Map<String, String> parsedArgs){
-		Tag playerTag = PlayerTagManager.getPlayerTag(player);
+		Tag playerTag = PlayerTagManager.getPlayerPrefixTag(player);
 		if(playerTag == null){
-			player.sendMessage("您未設置稱號");
+			player.sendMessage("您未設置前綴稱號");
 			return;
 		}
 		String playerTagId = playerTag.getId();

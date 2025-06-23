@@ -35,20 +35,42 @@ public class MainGUI{
 			new ItemStack(Material.BLACK_STAINED_GLASS_PANE),
 			(e) -> e.setCancelled(true)
 	);
-	static final ItemStack clearTagItem = new ItemStack(Material.BARRIER){{
+	static final ItemStack clearSuffixTagItem = new ItemStack(Material.BARRIER){{
 		editMeta(meta -> {
 			meta.displayName(
-					Component.text("清除稱號", NamedTextColor.RED)
+					Component.text("清除後綴稱號", NamedTextColor.RED)
 							.decoration(TextDecoration.ITALIC, false)
 							.decoration(TextDecoration.BOLD, true)
 			);
 		});
 	}};
-	static final GuiItem clearTagGuiItem = new GuiItem(
-			clearTagItem,
+	static final ItemStack clearPrefixTagItem = new ItemStack(Material.BARRIER){{
+		editMeta(meta -> {
+			meta.displayName(
+					Component.text("清除前綴稱號", NamedTextColor.RED)
+							.decoration(TextDecoration.ITALIC, false)
+							.decoration(TextDecoration.BOLD, true)
+			);
+		});
+	}};
+	static final GuiItem clearSuffixTagGuiItem = new GuiItem(
+			clearSuffixTagItem,
 			(e) -> {
 				Player player = (Player) e.getWhoClicked();
-				PlayerTagManager.clearPlayerTag(player);
+				PlayerTagManager.clearPlayerSuffixTag(player);
+				player.sendMessage(
+						Component.text()
+								.append(Component.text("已清除稱號", NamedTextColor.GREEN))
+				);
+				showGUI(player);
+				e.setCancelled(true);
+			}
+	);
+	static final GuiItem clearPrefixTagGuiItem = new GuiItem(
+			clearPrefixTagItem,
+			(e) -> {
+				Player player = (Player) e.getWhoClicked();
+				PlayerTagManager.clearPlayerPrefixTag(player);
 				player.sendMessage(
 						Component.text()
 								.append(Component.text("已清除稱號", NamedTextColor.GREEN))
@@ -72,8 +94,10 @@ public class MainGUI{
 		for(int i = 1; i < 8; i++){
 			outlinePane.addItem(outlineItem, i, 5);
 		}
-		outlinePane.addItem(clearTagGuiItem, 4, 5);
-		Tag playerTag = PlayerTagManager.getPlayerTag(player);
+		outlinePane.addItem(clearPrefixTagGuiItem, 2, 5);
+		outlinePane.addItem(clearSuffixTagGuiItem, 6, 5);
+		Tag playerSuffixTag = PlayerTagManager.getPlayerSuffixTag(player);
+		Tag playerPrefixTag = PlayerTagManager.getPlayerPrefixTag(player);
 		ItemStack showTagItem = new ItemStack(Material.PLAYER_HEAD);
 		SkullMeta skullMeta = (SkullMeta) showTagItem.getItemMeta();
 		skullMeta.setOwningPlayer(player);
@@ -88,11 +112,22 @@ public class MainGUI{
 			meta.lore(new ArrayList<>(){{
 				add(
 						Component.text()
-								.append(Component.text("使用中: ", NamedTextColor.GOLD))
+								.append(Component.text("前綴: ", NamedTextColor.GOLD))
 								.append(
-										playerTag == null ?
+										playerPrefixTag == null ?
 												Component.text("無", NamedTextColor.RED) :
-												LegacyComponentSerializer.legacy('&').deserialize(playerTag.getText())
+												LegacyComponentSerializer.legacy('&').deserialize(playerPrefixTag.getText())
+								)
+								.decoration(TextDecoration.ITALIC, false)
+								.build()
+				);
+				add(
+						Component.text()
+								.append(Component.text("後綴: ", NamedTextColor.GOLD))
+								.append(
+										playerSuffixTag == null ?
+												Component.text("無", NamedTextColor.RED) :
+												LegacyComponentSerializer.legacy('&').deserialize(playerSuffixTag.getText())
 								)
 								.decoration(TextDecoration.ITALIC, false)
 								.build()
@@ -112,11 +147,19 @@ public class MainGUI{
 			if(TagManager.hasTagPermission(player, tag)){
 				ItemStack itemStack = tag.getIcon().clone();
 				itemStack.removeEnchantments();
-				if(playerTag != null){
-//					DebugOutputHandler.sendDebugOutput("playerTag.getId(): " + playerTag.getId() + ", tag.getId(): " + tag.getId());
-					if(playerTag.equals(tag)){
+				if(playerPrefixTag != null){
+					if(playerPrefixTag.equals(tag)){
 						itemStack.editMeta(itemMeta -> {
-							itemMeta.displayName(itemMeta.displayName().append(Component.text(" (使用中) ", NamedTextColor.GREEN)));
+							itemMeta.displayName(itemMeta.displayName().append(Component.text(" (前綴使用中) ", NamedTextColor.GREEN)));
+							itemMeta.addEnchant(Enchantment.INFINITY, 1, false);
+							itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+						});
+					}
+				}
+				if(playerSuffixTag != null){
+					if(playerSuffixTag.equals(tag)){
+						itemStack.editMeta(itemMeta -> {
+							itemMeta.displayName(itemMeta.displayName().append(Component.text(" (後綴使用中) ", NamedTextColor.GREEN)));
 							itemMeta.addEnchant(Enchantment.INFINITY, 1, false);
 							itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 						});

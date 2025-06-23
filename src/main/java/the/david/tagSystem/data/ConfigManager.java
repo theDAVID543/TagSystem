@@ -13,6 +13,7 @@ public class ConfigManager{
 		tagConfig.setObject("tags." + tag.getId() + ".text", tag.getText());
 		tagConfig.setObject("tags." + tag.getId() + ".description", tag.getDescription());
 		tagConfig.setObject("tags." + tag.getId() + ".icon", tag.getIcon());
+		tagConfig.setObject("tags." + tag.getId() + ".type", tag.getTagType().toString());
 		tagConfig.saveFile();
 	}
 }
