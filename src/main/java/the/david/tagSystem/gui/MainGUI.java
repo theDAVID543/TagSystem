@@ -119,6 +119,7 @@ public class MainGUI{
 												LegacyComponentSerializer.legacy('&').deserialize(playerPrefixTag.getText())
 								)
 								.decoration(TextDecoration.ITALIC, false)
+								.color(NamedTextColor.WHITE)
 								.build()
 				);
 				add(
@@ -130,6 +131,7 @@ public class MainGUI{
 												LegacyComponentSerializer.legacy('&').deserialize(playerSuffixTag.getText())
 								)
 								.decoration(TextDecoration.ITALIC, false)
+								.color(NamedTextColor.WHITE)
 								.build()
 				);
 			}});
